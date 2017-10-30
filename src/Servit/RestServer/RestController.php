@@ -1,8 +1,8 @@
 <?php
 namespace Servit\RestServer; 
-use Servit\Libs\DbTrait.php';
-use Servit\Libs\Nonce.php';
-use Servit\Libs\Csrf.php';
+use Servit\Libs\DbTrait;
+use Servit\Libs\Nonce;
+use Servit\Libs\Csrf;
 
 class  RestController {
 
