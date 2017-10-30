@@ -1,0 +1,19 @@
+{
+    "name": "servit/restsrv",
+    "description": "My first Composer project",
+    "authors": [
+        {
+            "name": "Thongchai Lim",
+            "email": "thongchai@servit.co.th"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.5.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Servit": "src/"
+        }
+    }
+}
