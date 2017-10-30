@@ -3,7 +3,7 @@ namespace Servit\Model;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class BaseMobel extends Model  {
+class BaseModel extends Model  {
 
         public static function boot()     {
            parent::boot();
