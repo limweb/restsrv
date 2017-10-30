@@ -251,7 +251,8 @@ class RestServer {
 	}
 
 	public function addClass($class, $basePath = '') {
-		$filepath = __DIR__.'/../controllers/'.$class.'.php';
+		$path = glob($_SERVER["DOCUMENT_ROOT"])[0];
+		$filepath = $path.'/controllers/'.$class.'.php';
 		if (file_exists($filepath)) {
 			require_once($filepath);
 			$this->loadCache();
