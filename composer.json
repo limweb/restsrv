@@ -9,7 +9,14 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "php": ">=5.5.0"
+        "php": ">=5.5.0",        
+        "illuminate/database": "5.4.36",
+        "illuminate/events": "5.4.36",
+        "symfony/var-dumper": "3.3.10",
+        "lcobucci/jwt": "^3.2.2",
+        "php-curl-class/php-curl-class": "^7.4",
+        "mpdf/mpdf": "^6.1",
+        "eoghanobrien/php-simple-mail": "^1.7"
     },
     "autoload": {
         "psr-0": {
