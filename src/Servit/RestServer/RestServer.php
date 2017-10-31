@@ -30,7 +30,7 @@ use Servit\RestServer\RestException;
 use Servit\RestServer\RestJwt;
 use Servit\RestServer\RestRbac;
 use Servit\RestServer\RestController;
-use Servit\Ligs\Request;
+use Servit\Libs\Request;
 use Exception;
 use ReflectionClass;
 use ReflectionObject;
@@ -198,8 +198,9 @@ class RestServer {
 		$this->url = $this->getPath();
 		$this->method = $this->getMethod();
 		$this->format = $this->getFormat();
+		$this->data = $this->getData();
 		if ($this->method == 'PUT' || $this->method == 'POST' || $this->method == 'PATCH') {
-			$this->data = $this->getData();
+			// $this->data = $this->getData();
 		}
 
 		//preflight requests response 
@@ -544,7 +545,7 @@ class RestServer {
 		// $data = file_get_contents('php://input');
 		// $data = json_decode($data, $this->jsonAssoc);
 		// return $data;
-		return new Request();
+		return new Request($this->jsonAssoc);
 	}
 
 	public function sendData($data){
