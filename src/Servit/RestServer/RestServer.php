@@ -30,6 +30,7 @@ use Servit\RestServer\RestException;
 use Servit\RestServer\RestJwt;
 use Servit\RestServer\RestRbac;
 use Servit\RestServer\RestController;
+use Servit\Ligs\Request;
 use Exception;
 use ReflectionClass;
 use ReflectionObject;
@@ -540,10 +541,10 @@ class RestServer {
 	}
 
 	public function getData() 	{
-		$data = file_get_contents('php://input');
-		$data = json_decode($data, $this->jsonAssoc);
-
-		return $data;
+		// $data = file_get_contents('php://input');
+		// $data = json_decode($data, $this->jsonAssoc);
+		// return $data;
+		return new Request();
 	}
 
 	public function sendData($data){
