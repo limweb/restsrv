@@ -20,7 +20,7 @@ class Request  extends Config {
 	private function input(){
 		$data = file_get_contents('php://input');
 		$data = json_decode($data,$this->jsonAssoc);
-		dump($data);
+		// dump($data);
 		$this->input = new Config($data);
 	}
 

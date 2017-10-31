@@ -16,9 +16,6 @@ class  RestController {
 			// }
 			$this->jwt = (new Restjwt());
 			$this->rbac = (new RestRbac($this->jwt));
-			$this->get =  (object) $_GET;
-			$this->post = (object) $_POST;
-			$this->files = (object)  $_FILES;
 		}
 
 		public function init() {
