@@ -1,50 +1,61 @@
 <?php
 namespace Servit\Libs;
+use Servit\Cfg\Config;
 
-class Request  {
+class Request  extends Config {
 
-	protected $input ='';
 	private $jsonAssoc = false;
 
 	public function __construct($jsonAssoc){
+		parent::__construct();
 		$this->jsonAssoc = $jsonAssoc;
-		$this->input = new \stdClass();
-		$this->getInput();
-		$this->getGet();
-		$this->getPost();
-		$this->getFiles();
-		$this->getHeader();
+		$this->input();
+		$this->inputget();
+		$this->inputpost();
+		$this->inputfiles();
+		$this->header();
+		return $this;
 	}
 
-	public function getInput(){
+	private function input(){
 		$data = file_get_contents('php://input');
 		$data = json_decode($data,$this->jsonAssoc);
-		return $data;
+		dump($data);
+		$this->input = new Config($data);
 	}
 
-	public function getPost(){
+	private function inputpost(){
+		$o = new Config();
 		foreach ($_POST as $key => $value) {
-			$this->input->{$key} = filter_input(INPUT_POST,$key);
+			$o->{$key} = filter_input(INPUT_POST,$key);
 		}
+		$this->inputpost  = $o;
 	}
 
-	public function getGet(){
+	public function inputget(){
+		$o = new Config();
 		foreach ($_GET as $key => $value) {
-			$this->input->{$key} = filter_input(INPUT_GET,$key);
+			$o->{$key} = filter_input(INPUT_GET,$key);
 		}
+		$this->inputget = $o;
 	}
 
 
-	public function getFiles(){
-
+	public function inputfiles(){
+		$o = new Config();
+		foreach ($_FILES as $key => $value) {
+			$o->{$key} = $value;
+		}
+		$this->inputfiles = $o;
 	}
 
-	public function getHeader() {
-
+	public function header() {
+		$this->header = $this->getBearerToken();
+		$this->token =  $this->getBearerToken();
 	}
 
 
-/** 
+	/** 
 	 * Get hearder Authorization
 	 * */
 	private function getAuthorizationHeader(){
@@ -78,16 +89,9 @@ class Request  {
 	            return $matches[1];
 	        }
 	    } else {
-	    	$posttoken = filter_input(INPUT_POST,REFTOKEN);
-	    	if($posttoken) return $posttoken;
-
-	    	$gettoken = filter_input(INPUT_GET,REFTOKEN);
-	    	if($gettoken) return $gettoken;
-
-	    	$data = file_get_contents('php://input');
-
-			$data = json_decode($data);
-			if(isset($data->ref_token)) return $data->{REFTOKEN};
+	    	if($this->inputget->{REFTOKEN}) return $this->inputget->{REFTOKEN};
+	    	if($this->inputpost->{REFTOKEN}) return $this->inputpost->{REFTOKEN};
+	    	if($this->input->{REFTOKEN}) return $this->input->{REFTOKEN};
 	    }
 	    return null;
 	}
