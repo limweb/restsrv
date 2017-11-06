@@ -1,7 +1,7 @@
 <?php
 namespace Servit\Libs;
 use Servit\Cfg\Config;
-use Servit\Trait\SingletonTrait;
+use Servit\Traits\SingletonTrait;
 
 class Request  extends Config {
 

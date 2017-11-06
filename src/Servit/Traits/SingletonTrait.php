@@ -1,5 +1,5 @@
 <?php
-namespace Servit\Trait;
+namespace Servit\Traits;
 
 trait SingletonTrait
 { 

@@ -1,5 +1,5 @@
 <?php
-namespace Servit\Trait;
+namespace Servit\Traits;
 
 trait DbTrait {
 
@@ -89,7 +89,9 @@ trait DbTrait {
    */
   public function dbbypage($page=1,$perpage=null){
     if($this->model()) {
-         $page = $page?:1;
+         $page = $page=='$page' ?1:1;
+         $perpage = $perpage =='$perpage'?PERPAGE:PERPAGE;
+         dump($page,$perpage);
          $items = $this->model()->skip(($page-1)*$perpage)->take($perpage)->get();
         return ['db'=>true,'data'=> $items, 'status'=>'true'];              
     }
