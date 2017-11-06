@@ -543,12 +543,7 @@ class RestServer {
 	}
 
 	public function getData() 	{
-		// $data = file_get_contents('php://input');
-		// $data = json_decode($data, $this->jsonAssoc);
-		// return $data;
-		$data = new Request($this->jsonAssoc);
-		$data->setAsGlobal();
-		return $data;
+		return new Request($this->jsonAssoc);
 	}
 
 	public function sendData($data){

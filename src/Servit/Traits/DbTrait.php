@@ -91,7 +91,6 @@ trait DbTrait {
     if($this->model()) {
          $page = $page=='$page' ?1:1;
          $perpage = $perpage =='$perpage'?PERPAGE:PERPAGE;
-         dump($page,$perpage);
          $items = $this->model()->skip(($page-1)*$perpage)->take($perpage)->get();
         return ['db'=>true,'data'=> $items, 'status'=>'true'];              
     }

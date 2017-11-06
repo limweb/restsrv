@@ -18,6 +18,7 @@ class Request  extends Config {
 		$this->sessions();
 		$this->servers();
 		$this->header();
+		$this->setAsGlobal();
 		return $this;
 	}
 
