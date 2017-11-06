@@ -1,11 +1,12 @@
 <?php
 namespace Servit\Libs;
 use Servit\Cfg\Config;
+use Servit\Trait\SingletonTrait;
 
 class Request  extends Config {
 
-	private $jsonAssoc = false;
-
+	use  SingletonTrait;
+	
 	public function __construct($jsonAssoc){
 		parent::__construct();
 		$this->jsonAssoc = $jsonAssoc;
@@ -13,9 +14,58 @@ class Request  extends Config {
 		$this->inputget();
 		$this->inputpost();
 		$this->inputfiles();
+		$this->cookies();
+		$this->sessions();
+		$this->servers();
 		$this->header();
 		return $this;
 	}
+
+
+	public function getdata(){
+		return $this->__toString();
+	}
+
+
+	public function __toString(){
+		$o = new \stdClass();
+		$o->input = $this->input->__toString();
+		$o->posts = $this->posts->__toString();
+		$o->gets = $this->gets->__toString();
+		$o->files = $this->files->__toString();
+		$o->cookies = $this->cookies->__toString();
+		$o->sessions = $this->sessions->__toString();
+		$o->servers = $this->servers->__toString();
+		$o->header = $this->header;
+		$o->token = $this->token;
+		return $o;
+	}
+
+	private function cookies(){
+		$o = new Config();
+		foreach ($_COOKIE as $key => $value) {
+			$o->{$key} = $value;
+		}
+		$this->cookies  = $o;
+	}
+
+	private function sessions(){
+		$o = new Config();
+		foreach ($_SESSION as $key => $value) {
+			$o->{$key} = $value;
+			if($key == 'user') $this->user = json_decode(json_encode($value),$this->jsonAssoc);
+		}
+		$this->sessions  = $o;
+	}
+
+	private function servers(){
+		$o = new Config();
+		foreach ($_SERVER as $key => $value) {
+			$o->{$key} = $value;
+		}
+		$this->servers  = $o;
+	}
+
 
 	private function input(){
 		$data = file_get_contents('php://input');
@@ -29,7 +79,7 @@ class Request  extends Config {
 		foreach ($_POST as $key => $value) {
 			$o->{$key} = filter_input(INPUT_POST,$key);
 		}
-		$this->inputpost  = $o;
+		$this->posts = $o;
 	}
 
 	public function inputget(){
@@ -37,7 +87,7 @@ class Request  extends Config {
 		foreach ($_GET as $key => $value) {
 			$o->{$key} = filter_input(INPUT_GET,$key);
 		}
-		$this->inputget = $o;
+		$this->gets = $o;
 	}
 
 
@@ -46,7 +96,7 @@ class Request  extends Config {
 		foreach ($_FILES as $key => $value) {
 			$o->{$key} = $value;
 		}
-		$this->inputfiles = $o;
+		$this->files = $o;
 	}
 
 	public function header() {
@@ -89,8 +139,8 @@ class Request  extends Config {
 	            return $matches[1];
 	        }
 	    } else {
-	    	if($this->inputget->{REFTOKEN}) return $this->inputget->{REFTOKEN};
-	    	if($this->inputpost->{REFTOKEN}) return $this->inputpost->{REFTOKEN};
+	    	if($this->gets->{REFTOKEN}) return $this->gets->{REFTOKEN};
+	    	if($this->posts->{REFTOKEN}) return $this->posts->{REFTOKEN};
 	    	if($this->input->{REFTOKEN}) return $this->input->{REFTOKEN};
 	    }
 	    return null;

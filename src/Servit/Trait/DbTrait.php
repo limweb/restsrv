@@ -1,5 +1,5 @@
 <?php
-namespace Servit\Libs;
+namespace Servit\Trait;
 
 trait DbTrait {
 
@@ -30,7 +30,7 @@ trait DbTrait {
 
   /**
   * @ noAuth
-  * @xurl GET /insert
+  * @url GET /insert
   * @url POST /insert
   */
   public function store() {
@@ -48,8 +48,8 @@ trait DbTrait {
 
   /**
   * @ noAuth
-  * @xurl GET /update/$id
-  * @url PUT /$id
+  * @url GET /update/$id
+  * @url PUT /update$id
   */
   public function update($id=null) {
   	if($this->model() && $id ) {
@@ -69,20 +69,35 @@ trait DbTrait {
 
   /**
   * @ noAuth
-  * @xurl GET /delete/$id
-  * @url DELETE /$id
+  * @url GET /delete/$id
+  * @url DELETE /delete/$id
   */
   public function destroy($id=null) {
   	if($this->model() && $id ) {
   		$item = $this->model()->find($id);
   		return ['db'=>true,'data'=>$item,'rs'=> $this->model()->destroy($id),'status'=>true];
   	} else {
-		return ['db'=>false,'data'=>[],'status'=>true];
-  	}
+    return ['db'=>false,'data'=>[],'status'=>true];
+    }
   }
 
 
-  	protected function model(){
+  /**
+   *@noAuth
+   *@url GET /get/$page/$perpage
+   *@url POST /get/$page/$perpage
+   */
+  public function dbbypage($page=1,$perpage=null){
+    if($this->model()) {
+         $page = $page?:1;
+         $items = $this->model()->skip(($page-1)*$perpage)->take($perpage)->get();
+        return ['db'=>true,'data'=> $items, 'status'=>'true'];              
+    }
+		return ['db'=>false,'data'=>[],'status'=>true];
+  }
+
+
+	protected function model(){
 		return null;
 	}
 }

@@ -22,8 +22,9 @@
 // THE SOFTWARE.
 //
 ////////////////////////////////////////////////////////////////////////////////
-
 namespace Servit\RestServer;
+
+require_once __DIR__.'/../Libs/utils.php';
 
 use Servit\RestServer\RestFormat;
 use Servit\RestServer\RestException;
@@ -545,7 +546,9 @@ class RestServer {
 		// $data = file_get_contents('php://input');
 		// $data = json_decode($data, $this->jsonAssoc);
 		// return $data;
-		return new Request($this->jsonAssoc);
+		$data = new Request($this->jsonAssoc);
+		$data->setAsGlobal();
+		return $data;
 	}
 
 	public function sendData($data){

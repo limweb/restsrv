@@ -11,7 +11,6 @@ class Config {
         } else {
         	$this->values = new \stdClass();
         }
-
     }
 
     public function __get($prop) {
@@ -20,5 +19,9 @@ class Config {
 
     public function __set( $prop, $value ) {
              $this->values->$prop = $value;
+    }
+
+    public function __toString() {
+        return $this->values;
     }
 }

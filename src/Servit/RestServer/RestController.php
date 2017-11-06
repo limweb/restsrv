@@ -3,6 +3,7 @@ namespace Servit\RestServer;
 use Servit\Libs\DbTrait;
 use Servit\Libs\Nonce;
 use Servit\Libs\Csrf;
+use \Servit\Libs\Request;
 
 class  RestController {
 
@@ -16,6 +17,7 @@ class  RestController {
 			// }
 			$this->jwt = (new Restjwt());
 			$this->rbac = (new RestRbac($this->jwt));
+			$this->input = Request::getInstance();
 		}
 
 		public function init() {
@@ -27,11 +29,18 @@ class  RestController {
 		public function authorize(){
 			consolelog('-----Authorize------third function --------------');
 			$chk = 0;
+			if( AUTHTYPE == 'session') {
+				if($this->input->user){
+					$chk = 1;
+				}
+			} else {
 			if($this->jwt) {
 				$this->jwt->server = $this->server;
 				$chk =  $this->jwt->chkauth();
 			}
+			}
 			// dump($chk);
+			consolelog('---chk--',$chk);
 			return $chk;
     	}
 
