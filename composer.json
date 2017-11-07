@@ -19,8 +19,8 @@
         "eoghanobrien/php-simple-mail": "^1.7"
     },
     "autoload": {
-        "psr-0": {
-            "Servit": "src/"
+        "psr-4": {
+            "Servit\\": "src/"
         }
     }
 }
