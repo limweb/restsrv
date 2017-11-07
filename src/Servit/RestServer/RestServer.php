@@ -215,7 +215,7 @@ class RestServer {
 				if (class_exists($obj)) {
 					$obj = new $obj();
 				} else {
-					throw new Exception("Class $obj does not exist");
+					throw new RestException("Class $obj does not exist");
 				}
 			}
 
@@ -261,9 +261,9 @@ class RestServer {
 			$this->loadCache();
 			if (!$this->cached) {
 				if (is_string($class) && !class_exists($class)){
-					throw new Exception('Invalid method or class');
+					throw new RestException('Invalid method or class');
 				} elseif (!is_string($class) && !is_object($class)) {
-					throw new Exception('Invalid method or class; must be a classname or object');
+					throw new RestException('Invalid method or class; must be a classname or object');
 				}
 
 				if (substr($basePath, 0, 1) == '/') {
