@@ -34,10 +34,10 @@ class  RestController {
 					$chk = 1;
 				}
 			} else {
-			if($this->jwt) {
-				$this->jwt->server = $this->server;
-				$chk =  $this->jwt->chkauth();
-			}
+				if($this->jwt) {
+					$this->jwt->server = $this->server;
+					$chk =  $this->jwt->chkauth();
+				}
 			}
 			// dump($chk);
 			consolelog('---chk--',$chk);

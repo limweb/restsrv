@@ -1,4 +1,7 @@
-<?php	//version my202
+<?php	
+namespace  Servit\Libs;
+//version my202
+
 
 class Mysqltunnel  {
 
@@ -534,6 +537,3 @@ class Mysqltunnel  {
 	}
 
 }
-
-$m = new Mysqltunnel();
-echo $m;
