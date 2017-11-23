@@ -123,6 +123,7 @@ class RestServer {
 	public $mode;
 	public $root;
 	public $rootPath;
+	public $serverpath;
 	public $jsonAssoc = false;
 	protected $map = array();
 	protected $errorClasses = array();
@@ -153,6 +154,7 @@ class RestServer {
 			$this->config = new Config();
 		}
 		$this->root = $dir;
+		$this->serverpath = glob($_SERVER["DOCUMENT_ROOT"])[0];
 	}
 
 	public function  __destruct()	{
@@ -272,7 +274,6 @@ class RestServer {
 				if ($basePath && substr($basePath, -1) != '/') {
 					$basePath .= '/';
 				}
-
 				$this->generateMap($class, $basePath);
 			}
 		}
@@ -290,7 +291,6 @@ class RestServer {
 			} elseif (class_exists($class)) {
 				$reflection = new ReflectionClass($class);
 			}
-
 			if (isset($reflection))
 			{
 				if ($reflection->hasMethod($method))
@@ -399,10 +399,11 @@ class RestServer {
 		} elseif (class_exists($class)) {
 			$reflection = new ReflectionClass($class);
 		}
+		
 
 		$methods = $reflection->getMethods(ReflectionMethod::IS_PUBLIC);    //@todo $reflection might not be instantiated
 		foreach ($methods as $method) {
-			if(!in_array($method->name,['init','__construct','authorize','__call'])) {
+			if(!in_array($method->name,['init','__construct','authorize','__call','__destruct'])) {
 				$doc = $method->getDocComment();
 				$noAuth = strpos($doc, '@noAuth') !== false;
 				
